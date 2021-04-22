@@ -45,12 +45,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if(v.getId()==R.id.btnGuardar)
-        guardarCiudad();
-        listaciudades = db.seleccionarCiudad(db.getWritableDatabase());
-        orden();
-        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, listaciudades);
-        lvRespuesta.setAdapter(adapter);
+        if (v.getId() == R.id.btnGuardar) {
+            guardarCiudad();
+            listaciudades = db.seleccionarCiudad(db.getWritableDatabase());
+            ordenLista();
+            adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, listaciudades);
+            lvRespuesta.setAdapter(adapter);
+        }
     }
 
     private void limpiar() {
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtPoblacion.getText().clear();
     }
 
-    private void orden() {
+    private void ordenLista() {
         //Metodo para Ordenar de Menor a Mayor la Lista de Ciudades
         Collections.sort(listaciudades, new Comparator<Ciudad>() {
             @Override
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int cPoblacion = Integer.parseInt(txtPoblacion.getText().toString());
 
         Ciudad cCiudad = new Ciudad(cId, cNombre, cLatitud, cLongitud, cPoblacion);
-        listaciudades.add(cCiudad);
+        db.agregarCiudad(db.getWritableDatabase(),cCiudad);
         limpiar();
     }
 }
